@@ -44,7 +44,7 @@ input {
   color: #f8f8f2; /* Màu chữ trắng Dracula */
 }
 input::placeholder{
-  color: #f8f8f2; /* Màu chữ trắng Dracula */
+  color: #f8f8f293; /* Màu chữ trắng Dracula */
 }
 
 button {
@@ -263,4 +263,132 @@ body::before {
 
 .warning-icon {
   color: #ff9800;
+}
+
+
+.edit-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-title input {
+  font-size: 1.5rem;
+  padding: 5px;
+}
+
+.edit-title-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-icon, .cancel-icon {
+  cursor: pointer;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.edit-icon {
+  font-size: 1.2rem; /* Cố định kích thước */
+  cursor: pointer;
+  color: #00796b;
+  margin-left: 10px;
+  transition: all 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #004d40; /* Màu đậm hơn khi hover */
+  font-size: 1.2rem; /* Tăng nhẹ kích thước khi hover */
+}
+
+/* Căn chỉnh biểu tượng save và cancel rõ ràng hơn */
+.save-icon, .cancel-icon {
+  font-size: 1.5rem; /* Kích thước lớn hơn cho rõ ràng */
+  color: #00796b; /* Màu xanh cho dấu tích */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cancel-icon {
+  color: #d32f2f; /* Màu đỏ cho dấu x */
+}
+
+.save-icon:hover {
+  color: #004d40; /* Màu đậm hơn khi hover */
+}
+
+.cancel-icon:hover {
+  color: #b71c1c; /* Màu đỏ đậm hơn khi hover */
+}
+
+/* Style riêng cho input chỉnh sửa tiêu đề */
+.edit-title input {
+  font-size: 1.8rem; /* Kích thước lớn hơn cho tiêu đề */
+  padding: 10px;
+  border: 2px solid #00796b;
+  border-radius: 5px;
+  width: 100%; /* Đảm bảo input có độ rộng đầy đủ */
+  background-color: #f0f0f0; /* Màu nền khác biệt */
+  color: #333;
+  font-weight: bold;
+  margin-right: 10px; /* Cách biểu tượng save và cancel */
+}
+
+.edit-title input:focus {
+  outline: none;
+  border-color: #004d40;
+}
+
+/* Chỉnh sửa input của task để tách biệt với input tiêu đề */
+.todo-input input {
+  font-size: 1.2rem;
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Style riêng cho input chỉnh sửa tiêu đề */
+.edit-title {
+  margin-bottom: 20px; /* Thêm khoảng cách dưới tiêu đề */
+}
+
+.edit-title input {
+  font-size: 1.8rem; /* Kích thước lớn hơn cho tiêu đề */
+  padding: 10px;
+  border: 2px solid #00796b;
+  border-radius: 5px;
+  width: 100%; /* Đảm bảo input có độ rộng đầy đủ */
+  background-color: #f0f0f0; /* Màu nền khác biệt */
+  color: #333;
+  font-weight: bold;
+  margin-right: 10px; /* Cách biểu tượng save và cancel */
+}
+
+.edit-title input:focus {
+  outline: none;
+  border-color: #004d40;
+}
+
+/* Chỉnh sửa input của task để tách biệt với input tiêu đề */
+.todo-input {
+  margin-top: 10px; /* Thêm khoảng cách giữa input của task và các phần tử phía trên */
+}
+
+.todo-input input {
+  font-size: 1.2rem;
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+svg, i {
+  font-size: inherit;
+  line-height: inherit;
 }

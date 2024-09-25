@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle, faTrash, faCheck, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle, faTrash, faCheck, faUndo, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'; // Thêm icon faTimes và faEdit
 
 interface Todo {
   title: string;
@@ -15,6 +15,9 @@ export default function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState('');
   const [isClient, setIsClient] = useState(false);
+  const [listTitle, setListTitle] = useState('Danh sách công việc'); // State cho tiêu đề
+  const [isEditingTitle, setIsEditingTitle] = useState(false); // Trạng thái chỉnh sửa tiêu đề
+  const [editTitleInput, setEditTitleInput] = useState(listTitle); // Nội dung tiêu đề đang được chỉnh sửa
 
   useEffect(() => {
     setIsClient(true);
@@ -94,17 +97,60 @@ export default function TodoList() {
     }
   };
 
+  // Lưu thay đổi tiêu đề
+  const saveTitle = () => {
+    setListTitle(editTitleInput);
+    setIsEditingTitle(false);
+  };
+
+  // Hủy chỉnh sửa tiêu đề
+  const cancelEditTitle = () => {
+    setEditTitleInput(listTitle); // Khôi phục tiêu đề cũ
+    setIsEditingTitle(false);
+  };
+
   const completedTodos = todos.filter((todo) => todo.completed).length;
   const remainingTodos = todos.length - completedTodos;
 
   return (
     <div className="todo-container">
-      <h1>Private Work todoList</h1>
+      {/* Nếu đang chỉnh sửa tiêu đề, hiển thị input, nếu không hiển thị tiêu đề */}
+      {isEditingTitle ? (
+        <div className="edit-title">
+          <input
+            value={editTitleInput}
+            onChange={(e) => setEditTitleInput(e.target.value)}
+            placeholder="Edit list title"
+          />
+          <div className="edit-title-actions">
+            <FontAwesomeIcon
+              icon={faCheck}
+              className="save-icon"
+              onClick={saveTitle} // Lưu tiêu đề
+            />
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="cancel-icon"
+              onClick={cancelEditTitle} // Hủy thay đổi
+            />
+          </div>
+        </div>
+      ) : (
+        <h1>
+          {listTitle}
+          {isClient && (<FontAwesomeIcon
+            icon={faEdit}
+            className="edit-icon"
+            onClick={() => setIsEditingTitle(true)} // Chỉ cho phép chỉnh sửa khi nhấn vào icon
+          />)}
+        </h1>
+      )}
+       
       <div className="todo-input">
         <input
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add new task"
+          placeholder="Thêm công việc mới"
           onKeyDown={handleKeyPress}
         />
       </div>
