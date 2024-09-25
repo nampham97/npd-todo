@@ -1,42 +1,146 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* app/globals.css */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
+/* Theme Dark Dracula với yếu tố nước biển và background Chronus */
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  font-family: 'Courier New', monospace;
+  background-image: url('../asset/images/bg.jfif'); /* Thay đường dẫn ảnh Chronus vào đây */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #f8f8f2; /* Màu chữ trắng mềm */
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.todo-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(40, 42, 54, 0.9); /* Nền Dark Dracula với độ trong suốt */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7); /* Bóng đổ đậm hơn */
+  border-radius: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1 {
+  color: #bd93f9; /* Màu tím Dracula */
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.todo-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #6272a4; /* Màu viền tím Dracula */
+  border-radius: 5px;
+  font-size: 1.2rem;
+  background-color: #282a36; /* Nền input tối */
+  color: #f8f8f2; /* Màu chữ trắng Dracula */
+}
+input::placeholder{
+  color: #f8f8f2; /* Màu chữ trắng Dracula */
+}
+
+button {
+  padding: 10px;
+  background-color: #6272a4; /* Màu tím Dracula */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: 42px; /* Chiều cao bằng với ô nhập liệu */
+}
+
+button:hover {
+  background-color: #44475a; /* Màu tím đậm hơn khi hover */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #6272a4; /* Màu viền tím Dracula */
+  position: relative;
+  word-wrap: break-word;
+  background-color: rgba(40, 42, 54, 0.8); /* Nền của các item todo */
+  color: #f8f8f2;
+}
+
+li.completed span {
+  text-decoration: line-through;
+  color: #50fa7b; /* Màu xanh khi task hoàn thành */
+}
+
+.todo-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.check-icon {
+  color: #50fa7b; /* Màu xanh khi hoàn thành */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.check-icon:hover {
+  color: #8be9fd; /* Màu xanh biển nhẹ hơn khi hover */
+}
+
+.trash-icon {
+  color: #ff5555; /* Màu đỏ cho icon thùng rác */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trash-icon:hover {
+  color: #ff79c6; /* Đỏ tươi hơn khi hover */
+}
+
+/* Đồng nhất chiều cao giữa button và input */
+button, input {
+  height: 40px;
+  background-color: #6272a4; /* Màu tím Dracula */
+  color: white;
+}
+
+button:hover {
+  background-color: #44475a;
+}
+
+/* Ngăn chọn văn bản khi nhấp nhanh check/uncheck */
+li {
+  user-select: none;
+}
+
+.todo-actions .check-icon.uncheck {
+  color: #f1fa8c; /* Màu vàng khi chưa hoàn thành */
+}
+
+.todo-actions .check-icon.uncheck:hover {
+  color: #ffb86c; /* Màu cam khi hover vào chưa hoàn thành */
+}
+
+/* Thêm hiệu ứng cho giao diện dark ocean */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgb(30 84 131 / 50%) 0%, rgb(0 0 0 / 50%) 100%);
+  z-index: -1; /* Hiệu ứng biển dưới background Chronus */
 }

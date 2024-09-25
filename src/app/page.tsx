@@ -1,95 +1,92 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faCheck, faUndo } from '@fortawesome/free-solid-svg-icons';
+
+export default function TodoList() {
+  const [todos, setTodos] = useState<{ title: string; completed: boolean }[]>([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [isClient, setIsClient] = useState(false); // State để kiểm tra đã mount client-side
+
+  useEffect(() => {
+    setIsClient(true); // Đánh dấu đã mount phía client
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const savedTodos = localStorage.getItem('todos');
+      if (savedTodos) {
+        setTodos(JSON.parse(savedTodos));
+      }
+    }
+  }, [isClient]);
+
+  useEffect(() => {
+    if (isClient && todos.length > 0) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+  }, [todos, isClient]);
+
+  const addTodo = () => {
+    if (newTodo.trim()) {
+      setTodos([...todos, { title: newTodo, completed: false }]);
+      setNewTodo('');  // Reset input sau khi thêm
+    }
+  };
+
+  const removeTodo = (index: number) => {
+    const updatedTodos = todos.filter((_, i) => i !== index);
+    setTodos(updatedTodos);
+  };
+
+  const toggleComplete = (index: number) => {
+    const updatedTodos = todos.map((todo, i) =>
+      i === index ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      addTodo();
+    }
+  };
+
+  // Chỉ render nội dung khi đang ở phía client
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="todo-container">
+      <h1>Todo Work list - Nampd</h1>
+      <div className="todo-input">
+        <input
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add new task"
+          onKeyDown={handleKeyPress}
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
+        {/* <button onClick={addTodo}>
+          <FontAwesomeIcon icon={faPlus} />
+        </button> */}
+      </div>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index} className={todo.completed ? 'completed' : ''}>
+            <span>{todo.title}</span>
+            <div className="todo-actions">
+              <FontAwesomeIcon
+                icon={todo.completed ? faUndo : faCheck}
+                onClick={() => toggleComplete(index)}
+                className={`check-icon ${!todo.completed ? '' : 'uncheck'}`}
+              />
+              <FontAwesomeIcon icon={faTrash} onClick={() => removeTodo(index)} className="trash-icon" />
+            </div>
           </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        ))}
+      </ul>
     </div>
   );
 }
