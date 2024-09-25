@@ -1,5 +1,5 @@
 "use client";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faTrash, faCheck, faUndo, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'; // Thêm icon faTimes và faEdit
@@ -182,6 +182,7 @@ export default function TodoList() {
         <p>Completed: {completedTodos}</p>
         <p>Total: {todos.length}</p>
       </footer>
+      <SpeedInsights />
     </div>
   );
 }
