@@ -144,3 +144,123 @@ body::before {
   background: linear-gradient(135deg, rgb(30 84 131 / 50%) 0%, rgb(0 0 0 / 50%) 100%);
   z-index: -1; /* Hiệu ứng biển dưới background Chronus */
 }
+
+/* Footer task stats trên một dòng */
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282a36;
+  padding: 10px 20px;
+  /* border-top: 1px solid #6272a4; */
+  color: #f8f8f2;
+  font-size: 1rem;
+  border-radius: 0 0 10px 10px; /* Bo tròn hai góc dưới */
+}
+
+.todo-footer p {
+  margin: 0;
+}
+
+/* Notification cho cảnh báo task quá hạn */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffecb3; /* Màu vàng cảnh báo nhẹ */
+  color: #795548; /* Màu nâu cho văn bản để dễ nhìn */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Bóng đổ nhẹ */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30px);
+  transition: all 0.5s ease, opacity 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.notification.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Icon nhấp nháy để gây sự chú ý */
+.notification .alert-icon {
+  font-size: 1.5rem;
+  color: #ff9800; /* Màu cam cảnh báo */
+  animation: blink 1s infinite;
+}
+
+/* Hiệu ứng nhấp nháy */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Điều chỉnh màu văn bản tùy theo cảnh báo */
+.notification .warning {
+  color: #f44336; /* Màu đỏ cảnh báo */
+}
+
+.notification .normal {
+  color: #795548; /* Màu nâu thông thường */
+}
+
+/* Icon cảnh báo bên cạnh task đã quá hạn */
+.warning-icon {
+  color: #ff9800;
+  margin-left: 10px;
+  cursor: pointer;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Tooltip cho cảnh báo khi hover */
+.warning-icon[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background-color: #ff9800;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.warning-icon[title]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 95%;
+  left: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #ff9800 transparent;
+}
+
+
+/* Đặt icon cảnh báo bên cạnh nút cập nhật và xóa */
+.todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.warning-icon {
+  color: #ff9800;
+}
