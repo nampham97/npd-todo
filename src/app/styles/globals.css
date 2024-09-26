@@ -11,10 +11,17 @@ body {
     background-attachment: fixed;
     color: #f8f8f2; /* Màu chữ trắng mềm */
   }
-  
+
+  .main-container {
+    display: flex;
+    justify-content: center; /* Căn giữa TodoList */
+    gap: 20px; /* Khoảng cách giữa các phần */
+    padding: 20px;
+  }
   .todo-container {
-    max-width: 600px;
-    margin: 50px auto;
+    width: 80%;
+    max-width: 700px;
+    /* margin: 50px auto; */
     padding: 20px;
     background-color: rgba(40, 42, 54, 0.9); /* Nền Dark Dracula với độ trong suốt */
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7); /* Bóng đổ đậm hơn */
@@ -433,3 +440,366 @@ body {
     color: #e67e22; /* Màu cam đậm hơn khi hover */
   }
   
+  /* app/globals.css */
+
+/* Nút Assistance ở góc phải bên dưới */
+.assistance-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.assistance-button:hover {
+  background-color: #2980b9;
+}
+
+/* app/globals.css */
+/* app/globals.css */
+
+/* Nút Assistance ở góc phải bên dưới */
+.assistance-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #3498db; /* Màu xanh biển */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.assistance-button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* Panel chat với màu sắc nước biển nhẹ nhàng hơn */
+.chat-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 500px;
+  background-color: #2c3e50; /* Chủ đề màu xanh biển đậm */
+  color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chat-panel.hidden {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #34495e;
+  padding: 15px;
+  font-weight: bold;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.chat-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Khoảng cách giữa các đoạn hội thoại */
+  background-color: #34495e;
+}
+
+/* Scrollbar với kiểu modern */
+.chat-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: #2c3e50;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: #95a5a6;
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background-color: #7f8c8d;
+}
+
+/* Tin nhắn user nằm bên phải và AI bên trái */
+.message {
+  max-width: 70%;
+  padding: 12px 18px;
+  border-radius: 15px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  position: relative;
+  font-family: 'Arial', sans-serif; /* Font chữ dễ đọc */
+}
+
+.message.user {
+  align-self: flex-end; /* User bên phải */
+  background-color: #3498db; /* Màu xanh nước biển cho user */
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+.message.assistant {
+  align-self: flex-start; /* Assistant bên trái */
+  background-color: #2f3640;
+  color: #f5f6fa;
+  border-bottom-left-radius: 0;
+}
+
+.message::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Góc cho tin nhắn user */
+.message.user::after {
+  right: 0;
+  border-left: 10px solid #3498db;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+/* Góc cho tin nhắn assistant */
+.message.assistant::after {
+  left: 0;
+  border-right: 10px solid #2f3640;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+/* Khoảng cách giữa các tin nhắn */
+.message {
+  margin-bottom: 20px;
+}
+
+/* Phần input và nút gửi với icon */
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #34495e;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 1px solid #2c3e50;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+.chat-input input::placeholder {
+  color: #95a5a6;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-input button:hover {
+  background-color: #2980b9;
+}
+
+.chat-input button:disabled {
+  background-color: #7f8c8d;
+  cursor: not-allowed;
+}
+
+/* Icon gửi tin nhắn */
+.chat-input button i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+
+/* fix more */
+/* app/globals.css */
+
+/* Cập nhật chiều rộng của chat panel */
+.chat-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 450px; /* Tăng chiều rộng để đủ hiển thị các tin nhắn */
+  height: 500px;
+  background-color: #2c3e50; /* Chủ đề màu xanh biển đậm */
+  color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Đảm bảo khoảng cách đều giữa các tin nhắn */
+.chat-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Đồng đều khoảng cách giữa các đoạn hội thoại */
+  background-color: #34495e;
+}
+
+/* Tin nhắn user nằm bên phải và assistant nằm bên trái */
+.message {
+  max-width: 75%; /* Đảm bảo tin nhắn chiếm 75% chiều rộng */
+  padding: 12px 18px;
+  border-radius: 15px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  position: relative;
+  font-family: 'Arial', sans-serif; /* Font chữ dễ đọc */
+  margin-bottom: 15px; /* Khoảng cách đồng đều giữa các đoạn chat */
+}
+
+.message.user {
+  align-self: flex-end; /* User bên phải */
+  background-color: #3498db; /* Màu xanh nước biển cho user */
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+.message.assistant {
+  align-self: flex-start; /* Assistant bên trái */
+  background-color: #2f3640;
+  color: #f5f6fa;
+  border-bottom-left-radius: 0;
+}
+
+.message::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Góc cho tin nhắn user */
+.message.user::after {
+  right: 0;
+  border-left: 10px solid #3498db;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+/* Góc cho tin nhắn assistant */
+.message.assistant::after {
+  left: 0;
+  border-right: 10px solid #2f3640;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+
+/* jarvis panel */
+/* Sidebar Jarvis */
+.jarvis-sidebar {
+  width: 30%; /* Sidebar chiếm 30% chiều rộng */
+  padding: 20px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Container gợi ý của Jarvis */
+.jarvis-container {
+  padding: 20px;
+  background-color: #34495e;
+  border-radius: 10px;
+}
+
+/* Gợi ý của Jarvis */
+.suggestions {
+  background-color: #3d566e;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #3d566e;
+  transition: background-color 0.3s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #1abc9c;
+  color: white;
+}
+
+/* Phân loại */
+.category {
+  text-align: center;
+  background-color: #2f3640;
+  padding: 10px;
+  border-radius: 5px;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.loading p {
+  margin: 0;
+  color: white;
+}
