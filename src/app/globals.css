@@ -388,7 +388,31 @@ h1 {
   width: 100%;
 }
 
-svg, i {
-  font-size: inherit;
-  line-height: inherit;
+/* Khu vực ưu tiên */
+.priority-section {
+  border: 2px dashed #ffb86c; /* Màu viền cho khu vực ưu tiên */
+  padding: 20px;
+  background-color: rgba(40, 42, 54, 0.7); /* Nền khu vực ưu tiên */
+  color: #f8f8f2;
+  margin-top: 20px;
+  min-height: 150px;
 }
+
+.priority-section h2 {
+  color: #ffb86c;
+  text-align: center;
+}
+
+.priority-section ul {
+  padding: 0;
+}
+
+.priority-section li {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #6272a4;
+  background-color: rgba(40, 42, 54, 0.9);
+  color: #f8f8f2;
+  cursor: grab;
+}
+
