@@ -49,9 +49,8 @@ export async function POST(req: Request) {
         .map(line => line.trim());
   
       // Tìm dòng có chứa "Phân loại" để xác định category
-      const categoryLine = suggestionLines?.find(line => line.startsWith("Phân loại:"));
-      const category = categoryLine ? categoryLine.replace("Phân loại:", "").trim() : "Chưa xác định";
-  
+      const categoryLine = suggestionLines?.find(line => line.startsWith("Phân loại nhiệm vụ:"));
+      const category = categoryLine ? categoryLine.replace("Phân loại nhiệm vụ:", "").trim() : "Chưa xác định";
 
     return NextResponse.json({ suggestions, category});
   } catch {

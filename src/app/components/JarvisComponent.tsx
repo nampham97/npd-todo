@@ -52,6 +52,12 @@ export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisC
     }
   }, [newTask, debouncedFetchSuggestions]);
 
+  const handleSelectSuggestion = (suggestion: string) => {
+    // Loại bỏ số thứ tự trước khi gọi hàm onSuggestionSelect
+    const cleanedSuggestion = suggestion.replace(/^[0-9]+\.\s*/, ""); // Loại bỏ ký tự số thứ tự và dấu chấm
+    onSuggestionSelect(cleanedSuggestion);
+  };
+
   return (
     <div className="jarvis-container">
       <h2>Nampd Sen - Gợi ý Nhiệm vụ</h2>
@@ -67,7 +73,7 @@ export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisC
               <div
                 key={index}
                 className="suggestion-item"
-                onClick={() => onSuggestionSelect(suggestion)}
+                onClick={() => handleSelectSuggestion(suggestion)}
               >
                 {suggestion}
               </div>

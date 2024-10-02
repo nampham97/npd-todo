@@ -18,7 +18,7 @@ export default function ChatComponent({ isOpen, toggleChat }: { isOpen: boolean,
     // Gọi API GPT-4.0 để lấy phản hồi từ AI
     try {
       setIsLoading(true);
-      const response = await fetch('/api/groq', {
+      const response = await fetch('/api/gpt4', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
