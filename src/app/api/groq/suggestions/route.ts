@@ -16,14 +16,15 @@ const getGroqChatCompletion = async (task : string) => {
       {
           role: "user",
           content: `
-                      Nhiệm vụ: "${task}".
-                      Hãy xác định nếu đây là một nhiệm vụ cần làm. Nếu đúng, hãy đưa ra 3 nhiệm vụ liên quan theo thứ tự:
-                      1. ...
-                      2. ...
-                      3. ...
-                      Nếu không phải nhiệm vụ cần làm, hãy trả lời: "Đây không phải là một nhiệm vụ cần làm."
-                      Phân loại nhiệm vụ: Công việc, Học tập, Sức khỏe, Gia đình, Giải trí hoặc Chưa xác định.
-                      `,
+                    Nhiệm vụ: "${task}".
+                    Hãy xác định nếu đây là một nhiệm vụ cần làm. Nếu đúng, hãy đưa ra 3 nhiệm vụ liên quan theo thứ tự:
+                    1. ...
+                    2. ...
+                    3. ...
+                    Nếu không phải nhiệm vụ cần làm, hãy trả lời: "Đây không phải là một nhiệm vụ cần làm."
+                    Ngoài ra, phân tích nội dung và đề xuất mức độ ưu tiên (cao, trung bình, thấp) cho nhiệm vụ trên:
+                    - Ưu tiên: Cao/Trung bình/Thấp.
+                    Phân loại nhiệm vụ: Công việc, Học tập, Sức khỏe, Gia đình, Giải trí hoặc Chưa xác định.`,
       },
   ],
     model: GROQ_MODEL,
@@ -56,7 +57,11 @@ export async function POST(req: Request) {
     const categoryLine = suggestionLines?.find(line => line.startsWith("Phân loại nhiệm vụ:"));
     const category = categoryLine ? categoryLine.replace("Phân loại nhiệm vụ:", "").trim() : "Chưa xác định";
 
-    return NextResponse.json({ suggestions, category});
+    // Tìm dòng có chứa "Ưu tiên" để xác định mức độ ưu tiên
+    const priorityLine = suggestionLines?.find(line => line.startsWith("Ưu tiên:"));
+    const priority = priorityLine ? priorityLine.replace("Ưu tiên:", "").trim() : "Không xác định";
+
+    return NextResponse.json({ suggestions, category, priority });
   } catch (error) {
     console.log('erro call api gpt4:', error)
     return NextResponse.json({ error: `Failed to fetch GPT-4.0 response: ${error}` }, { status: 500 });

@@ -6,14 +6,32 @@ import TodoList from './components/TodoList';
 import TodoFooter from './components/TodoFooter';
 import ChatComponent from './components/ChatComponent';
 import JarvisComponent from './components/JarvisComponent';
-
+import RemindersComponent from './components/RemindersComponent';
 // Khôi phục interface Todo
 interface Todo {
   title: string;
   completed: boolean;
   createdAt: Date;
   isWarning: boolean;
+  category: string;
+  priority: string; // Thêm thuộc tính priority để lưu mức độ ưu tiên
 }
+
+interface Reminder {
+  id: number;
+  task: string;
+  reminderTime: string;
+}
+
+const formatDateTime = (dateTime: string) => {
+  const date = new Date(dateTime);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${day}-${month}-${year} ${hours}:${minutes}`;
+};
 
 export default function HomePage() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -21,6 +39,8 @@ export default function HomePage() {
   const [listTitle, setListTitle] = useState('Danh sách công việc');
   const [isClient, setIsClient] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false); // Trạng thái của panel chat
+  const [holdCategory, setHoldCateogry] = useState("Không xác định");
+  const [jarvisReminders, setJarvisReminders] = useState<Reminder[]>([]);
 
   useEffect(() => {
     setIsClient(true);
@@ -38,16 +58,44 @@ export default function HomePage() {
     }
   }, [todos]);
 
-  const addTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([...todos, { title: newTodo, completed: false, createdAt: new Date(), isWarning: false }]);
-      setNewTodo('');
+  // const addTodo = (task: string, priority: string = "Không xác định", category: string = holdCategory) => {
+  //   if (task.trim()) {
+  //     console.log('holdCategory:', holdCategory)
+  //     setTodos([...todos, { title: task, completed: false, createdAt: new Date(), isWarning: false, category, priority }]);
+  //     setNewTodo('');
+  //   }
+  // };
+
+  const addTodo = async (task: string, priority: string = "Không xác định", category: string = holdCategory) => {
+    if (task.trim()) {
+      // Gọi API GPT-4 để phân tích nhắc nhở
+      const response = await fetch('/api/reminders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ task })
+      });
+      const data = await response.json();
+
+      // Cập nhật nhắc nhở nếu AI xác định cần đặt nhắc nhở
+      if (data.reminderTime) {
+        const newReminder: Reminder = {
+          id: jarvisReminders.length + 1,
+          task,
+          reminderTime: formatDateTime(data.reminderTime), // Định dạng thời gian
+        };
+        setJarvisReminders([...jarvisReminders, newReminder]);
+      }
+
+      setTodos([...todos, { title: task, completed: false, createdAt: new Date(), isWarning: false, category, priority }]);
     }
   };
+  
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      addTodo();
+      addTodo(newTodo);
     }
   };
 
@@ -72,8 +120,8 @@ export default function HomePage() {
     setIsChatOpen(!isChatOpen);
   };
 
-  const handleSuggestionSelect = (suggestion: string) => {
-    setNewTodo(suggestion);
+  const handleSuggestionSelect = (suggestion: string, category: string, priority: string) => {
+    addTodo(suggestion, category, priority); // Thêm nhiệm vụ vào TodoList với mức độ ưu tiên
   };
 
   return (
@@ -90,6 +138,10 @@ export default function HomePage() {
         
         </div>
         <TodoList todos={todos} toggleComplete={toggleComplete} removeTodo={removeTodo} />
+
+        {/* Component Reminders */}
+        <RemindersComponent todos={todos} jarvisReminders={jarvisReminders} />
+
         <TodoFooter remainingTodos={remainingTodos} completedTodos={completedTodos} totalTodos={todos.length} />
 
         {/* Nút Assistance ở góc dưới bên phải */}
@@ -102,7 +154,7 @@ export default function HomePage() {
       </div>
         {/* Giao diện Jarvis tách biệt bên phải */}
       <div className="jarvis-sidebar">
-        <JarvisComponent newTask={newTodo} onSuggestionSelect={handleSuggestionSelect} />
+      <JarvisComponent newTask={newTodo} onSuggestionSelect={handleSuggestionSelect} updateCategory={setHoldCateogry}/>
       </div>
     </div>
   );

@@ -1,0 +1,132 @@
+/* app/globals.css */
+
+/* Container nhắc nhở */
+.reminders-container {
+  padding: 20px;
+  background-color: #ffffff; /* Màu nền trắng */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reminders-container h2 {
+  margin: 0 0 15px;
+  font-size: 1.5rem;
+  color: #34495e;
+}
+
+.reminder-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.reminder-form select,
+.reminder-form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #ecf0f1; /* Nền input nhẹ */
+  color: #2c3e50;
+  width: 200px; /* Đảm bảo không bị tràn */
+}
+
+.datetime-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f7fa; /* Màu nền nhẹ nhàng */
+  color: #2c3e50; /* Màu chữ đậm */
+  transition: all 0.3s ease;
+}
+
+.datetime-input:focus {
+  border-color: #3498db; /* Màu viền khi focus */
+  background-color: #ffffff;
+}
+
+.reminder-form button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reminder-form button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.reminder-form button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.reminder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Item của nhắc nhở */
+.reminder-item {
+  background-color: #ecf0f1; /* Nền xám nhẹ */
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.reminder-item:hover {
+  background-color: #f2f4f7;
+}
+
+/* Nội dung của từng reminder */
+.reminder-content {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Khoảng cách giữa title và thời gian */
+}
+
+.reminder-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #34495e;
+}
+
+/* Đường ngăn cách giữa title và time */
+.reminder-divider {
+  height: 20px;
+  width: 2px;
+  background-color: #3498db; /* Màu ngăn cách */
+  border-radius: 2px;
+}
+
+.reminder-time {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.remove-button {
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #c0392b;
+}

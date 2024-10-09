@@ -1,5 +1,6 @@
 // app/layout.tsx
 import './styles/globals.css';
+import './styles/reminder.css'
 import { ReactNode } from 'react';
 
 interface RootLayoutProps {

@@ -8,12 +8,14 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface JarvisComponentProps {
   newTask: string;
-  onSuggestionSelect: (suggestion: string) => void;
+  onSuggestionSelect: (suggestion: string, category: string, priority: string) => void;
+  updateCategory : (category : string) => void;
 }
 
-export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisComponentProps) {
+export default function JarvisComponent({ newTask, onSuggestionSelect, updateCategory }: JarvisComponentProps) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("Chưa xác định");
+  const [priority, setPriority] = useState<string>("Không xác định");
   const [isLoading, setIsLoading] = useState(false);
 
   // Hàm gọi API với debounce
@@ -33,6 +35,7 @@ export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisC
       const data = await response.json();
       setSuggestions(data.suggestions || []);
       setCategory(data.category || "Chưa xác định"); // Cập nhật phân loại từ API
+      setPriority(data.priority || "Không xác định");
     } catch (error) {
       console.error('Error fetching suggestions:', error);
       setSuggestions([]);
@@ -52,10 +55,16 @@ export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisC
     }
   }, [newTask, debouncedFetchSuggestions]);
 
+  useEffect(() => {
+    updateCategory(category);
+  }, [category, updateCategory]);
+
+
+
   const handleSelectSuggestion = (suggestion: string) => {
     // Loại bỏ số thứ tự trước khi gọi hàm onSuggestionSelect
     const cleanedSuggestion = suggestion.replace(/^[0-9]+\.\s*/, ""); // Loại bỏ ký tự số thứ tự và dấu chấm
-    onSuggestionSelect(cleanedSuggestion);
+    onSuggestionSelect(cleanedSuggestion, category, priority); // Truyền thêm mức độ ưu tiên khi chọn gợi ý
   };
 
   return (
@@ -85,6 +94,7 @@ export default function JarvisComponent({ newTask, onSuggestionSelect }: JarvisC
       </div>
       <div className="category">
         <p>Phân loại: <strong>{category}</strong></p>
+        <p>Ưu tiên: <strong>{priority}</strong></p> {/* Hiển thị mức độ ưu tiên */}
       </div>
     </div>
   );
